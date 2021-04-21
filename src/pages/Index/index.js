@@ -94,12 +94,12 @@ export default class Index extends Component {
         return this.state.swipers.map(item => (
             <a
                 key={item.id}
-                href="#"
+                href="/#"
                 style={{ display: 'inline-block', width: '100%', height: 212 }}
             >
                 <img
                     src={`http://localhost:8080${item.imgSrc}`}
-                    alt=""
+                    alt="lunb"
                     style={{ width: '100%', verticalAlign: 'top' }}
                 />
             </a>
