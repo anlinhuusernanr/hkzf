@@ -9,7 +9,7 @@ body {
   touch-action: none;
 }
 
-h1,h2,p,h3,ul {
+h1,h2,p,h3,ul,dd {
   margin: 0;
 }
 

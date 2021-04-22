@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-
-import axios from 'axios'
 //import './index.scss';
 import { Link } from 'react-router-dom'
+import { Toast } from 'antd-mobile'
 import styles from './index.module.css'
 import NavHeader from '../../components/NavHeader/index'
+
+import { BASE_URL } from '../../utils/url'
+import { API } from '../../utils/api'
 
 //解决脚手架全局对象需使用window来访问的问题
 const BMapGL = window.BMapGL
@@ -86,12 +88,17 @@ export default class Map extends Component {
         this.map.addOverlay(label);
     }
     async getHouseList(id) {
-        const res = await axios.get(`http://localhost:8080/houses?cityId=${id}`)
-        console.log(res)
-        this.setState({
-            housesList: res.data.body.list,
-            isShowList: true
-        })
+        try {
+            Toast.loading('loading...', 0, null, false)
+            const res = await API.get(`/houses?cityId=${id}`)
+            Toast.hide()
+            this.setState({
+                housesList: res.data.body.list,
+                isShowList: true
+            })
+        } catch (e) {
+            Toast.hide()
+        }
     }
     createOverlays(data, zoom, type) {
         const { coord: { latitude, longitude }, label: areaName, count, value } = data
@@ -123,12 +130,18 @@ export default class Map extends Component {
     }
     // 渲染覆盖物入口
     async renderOverlays(id) {
-        const res = await axios.get(`http://localhost:8080/area/map?id=${id}`)
-        const data = res.data.body
-        const { type, nextZoom } = this.getTypeAndZoom()
-        data.forEach(item => {
-            this.createOverlays(item, nextZoom, type)
-        })
+        try {
+            Toast.loading('loading...', 0, null, false)
+            const res = await API.get(`/area/map?id=${id}`)
+            Toast.hide()
+            const data = res.data.body
+            const { type, nextZoom } = this.getTypeAndZoom()
+            data.forEach(item => {
+                this.createOverlays(item, nextZoom, type)
+            })
+        } catch (e) {
+            Toast.hide()
+        }
     }
     initMap() {
         // 获取当前定位城市
@@ -153,43 +166,6 @@ export default class Map extends Component {
                 map.addControl(new BMapGL.ScaleControl());
                 map.enableScrollWheelZoom(true);
                 this.renderOverlays(value)
-
-                // 获取房源数据
-                // const res = await axios.get(`http://localhost:8080/area/map?id=${value}`)
-                // console.log(res)
-                // res.data.body.forEach(item => {
-                //     const { coord: { latitude, longitude }, label: areaName, count, value } = item
-                //     // 添加文版覆盖物
-                //     // 创建文本标注
-                //     const areaPoint = new BMapGL.Point(longitude, latitude)
-                //     const opts = {
-                //         position: areaPoint,                          // 设置标注的地理位置
-                //         offset: new BMapGL.Size(-35, -35)           // 设置标注的偏移量
-                //     }
-                //     const label = new BMapGL.Label('', opts);
-                //     // 添加唯一id
-                //     label.id = value
-                //     // 设置房源覆盖物内容  设置setContent之后BMapGL.Label('', opts)中的文本内容就失效了
-                //     label.setContent(`
-                //     <div class="${styles.bubble}">
-                //         <p class="${styles.name}">${areaName}</p>
-                //         <p>${count}套</p>
-                //     </div>
-                // `)
-                //     // 设置样式
-                //     label.setStyle(labelStyle)
-                //     // 添加点击事件
-                //     label.addEventListener('click', () => {
-                //         console.log('点击了房源', label.id)
-                //         // 以当前点击覆盖物为中心方法地图
-                //         map.centerAndZoom(areaPoint, 13)
-                //         // 清楚当前覆盖物信息
-                //         map.clearOverlays()
-                //     })
-                //     // 添加文本到地图中
-                //     map.addOverlay(label);
-                // })
-
             } else {
                 alert('您选择的地址没有解析到结果！');
             }
@@ -209,7 +185,7 @@ export default class Map extends Component {
                 <div className={styles.imgWrap}>
                     <img
                         className={styles.img}
-                        src={`http://localhost:8080${item.houseImg}`}
+                        src={BASE_URL + item.houseImg}
                         alt=""
                     />
                 </div>

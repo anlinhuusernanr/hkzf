@@ -3,12 +3,14 @@ import { Route } from 'react-router-dom';
 
 import { TabBar } from 'antd-mobile';
 
+import './index.css';
+
 import News from '../News/index';
 import HouseList from '../HouseList/index';
 import Index from '../Index/index';
 import Profile from '../profile/index';
 
-import './index.css';
+
 
 const tabItems = [
     {
