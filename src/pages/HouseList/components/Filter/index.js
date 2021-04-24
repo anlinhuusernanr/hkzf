@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import { Spring, animated } from 'react-spring'
 import { API } from '../../../../utils/api'
 import FilterTitle from '../FilterTitle'
 import FilterPicker from '../FilterPicker'
@@ -29,6 +30,7 @@ export default class Filter extends Component {
     selectedValue,
   }
   componentDidMount() {
+    this.htmlBody = document.body
     this.getFiltersData()
   }
   // 获取数据
@@ -40,6 +42,7 @@ export default class Filter extends Component {
     })
   }
   onTitleClick = (type) => {
+    this.htmlBody.className = 'body-fixed'
     const { titleSelectedStatus, selectedValue } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -65,18 +68,9 @@ export default class Filter extends Component {
       openType: type,
       titleSelectedStatus: newTitleSelectedStatus
     })
-    // this.setState(preType => {
-    //   return {
-    //     titleSelectedStatus: {
-    //       // 获取当前对象的所有属性
-    //       ...preType.titleSelectedStatus,
-    //       [type]: true
-    //     },
-    //     openType: type
-    //   }
-    // })
   }
   onCancel = (type) => {
+    this.htmlBody.className = ''
     const { titleSelectedStatus, selectedValue } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -98,6 +92,7 @@ export default class Filter extends Component {
     })
   }
   onSave = (type, value) => {
+    this.htmlBody.className = ''
     const { titleSelectedStatus } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -113,12 +108,29 @@ export default class Filter extends Component {
     } else {
       newTitleSelectedStatus[type] = false
     }
+    const newSelectedValue = {
+      ...this.state.selectedValue,
+      [type]: value
+    }
+    const { area, mode, price, more } = newSelectedValue
+    // 筛选条件数据
+    const filters = {}
+    // 区域
+    const areaKey = area[0]
+    let areaValue = 'null'
+    if (area.length === 3) {
+      areaValue = area[2] !== 'null' ? area[2] : area[1]
+    }
+    filters[areaKey] = areaValue
+    // 方式和租金
+    filters.mode = mode[0]
+    filters.price = price[0]
+    // 更多
+    filters.more = more.join(',')
+    this.props.onFilter(filters)
     this.setState({
       openType: '',
-      selectedValue: {
-        ...this.state.selectedValue,
-        [type]: value
-      },
+      selectedValue: newSelectedValue,
       titleSelectedStatus: newTitleSelectedStatus
     })
   }
@@ -178,14 +190,30 @@ export default class Filter extends Component {
       onCancel={this.onCancel}
     ></FilterMore>
   }
+  renderMask() {
+    const { openType } = this.state
+    const isHide = openType === 'more' || openType === ''
+
+    return <Spring
+      from={{ opacity: 0 }}
+      to={{ opacity: isHide ? 0 : 1 }}
+    >{props => {
+      if (isHide) {
+        return null
+      }
+      return (
+        <animated.div style={props} className={styles.mask} onClick={() => { this.onCancel(openType) }} />
+      )
+    }}
+    </Spring>
+  }
   render() {
-    const { titleSelectedStatus, openType } = this.state
+    const { titleSelectedStatus } = this.state
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
         {
-          (openType === 'area' || openType === 'mode' || openType === 'price') ?
-            <div className={styles.mask} onClick={() => { this.onCancel(openType) }} /> : null
+          this.renderMask()
         }
 
         <div className={styles.content}>

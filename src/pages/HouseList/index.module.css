@@ -19,3 +19,15 @@
     padding: 0 10px;
     background-color: #f6f5f6;
 } 
+
+/* 房屋列表样式 */
+.houseItems {
+    padding: 0 15px;
+}
+
+.loading {
+    line-height: 120px;
+    text-align: center;
+    height: 110px;
+    background-color: #f6f5f6;
+}
