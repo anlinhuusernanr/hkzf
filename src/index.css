@@ -26,3 +26,7 @@ body {
   margin: 0;
   padding: 0;
 }
+/* 解决房屋找房页面展示遮罩层之后还会滚动问题 */
+.body-fixed {
+  overflow: hidden;
+}

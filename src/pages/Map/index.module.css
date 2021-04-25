@@ -1,15 +1,13 @@
 .map {
     height: 100%;
     padding-top: 45px;
-  }
-  
-  .container {
+}
+.container {
     height: 100%;
-  }
-  
-  .map :global(.am-navbar) {
+}
+.map :global(.am-navbar) {
     margin-top: -45px;
-  }
+}
   /* 覆盖物样式： */
 .bubble {
   width: 70px;
