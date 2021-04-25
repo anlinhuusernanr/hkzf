@@ -7,6 +7,7 @@ import FilterFooter from '../../../../components/FilterFooter'
 
 
 export default class FilterPicker extends Component {
+<<<<<<< HEAD
     state = {
         value: this.props.defaultValue
     }
@@ -28,3 +29,26 @@ export default class FilterPicker extends Component {
         )
     }
 }
+=======
+  state = {
+    value: this.props.defaultValue
+  }
+  render() {
+    const { onCancel, onSave, data, cols, type } = this.props
+    const { value } = this.state
+    return (
+      <>
+        {/* 选择器组件： */}
+        <PickerView data={data} value={value} cols={cols} onChange={val => {
+          this.setState({
+            value: val
+          })
+        }} />
+
+        {/* 底部按钮 */}
+        <FilterFooter onCancel={() => onCancel(type)} onOk={() => onSave(type, value)} />
+      </>
+    )
+  }
+}
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71

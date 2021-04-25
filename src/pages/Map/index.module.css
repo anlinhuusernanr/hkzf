@@ -2,11 +2,19 @@
     height: 100%;
     padding-top: 45px;
   }
+<<<<<<< HEAD
 
   .container {
     height: 100%;
   }
 
+=======
+  
+  .container {
+    height: 100%;
+  }
+  
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
   .map :global(.am-navbar) {
     margin-top: -45px;
   }
@@ -193,4 +201,8 @@
 .tag3 {
   color: #5aabfd;
   background: #e6f2ff;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71

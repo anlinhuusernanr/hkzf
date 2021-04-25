@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
+<<<<<<< HEAD
 import { Spring, animated } from 'react-spring'
+=======
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
 import { API } from '../../../../utils/api'
 import FilterTitle from '../FilterTitle'
 import FilterPicker from '../FilterPicker'
@@ -30,7 +33,10 @@ export default class Filter extends Component {
     selectedValue,
   }
   componentDidMount() {
+<<<<<<< HEAD
     this.htmlBody = document.body
+=======
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
     this.getFiltersData()
   }
   // 获取数据
@@ -42,7 +48,10 @@ export default class Filter extends Component {
     })
   }
   onTitleClick = (type) => {
+<<<<<<< HEAD
     this.htmlBody.className = 'body-fixed'
+=======
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
     const { titleSelectedStatus, selectedValue } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -68,9 +77,24 @@ export default class Filter extends Component {
       openType: type,
       titleSelectedStatus: newTitleSelectedStatus
     })
+<<<<<<< HEAD
   }
   onCancel = (type) => {
     this.htmlBody.className = ''
+=======
+    // this.setState(preType => {
+    //   return {
+    //     titleSelectedStatus: {
+    //       // 获取当前对象的所有属性
+    //       ...preType.titleSelectedStatus,
+    //       [type]: true
+    //     },
+    //     openType: type
+    //   }
+    // })
+  }
+  onCancel = (type) => {
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
     const { titleSelectedStatus, selectedValue } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -92,7 +116,10 @@ export default class Filter extends Component {
     })
   }
   onSave = (type, value) => {
+<<<<<<< HEAD
     this.htmlBody.className = ''
+=======
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
     const { titleSelectedStatus } = this.state
     // 创建新的标题选择状态
     const newTitleSelectedStatus = { ...titleSelectedStatus }
@@ -108,6 +135,7 @@ export default class Filter extends Component {
     } else {
       newTitleSelectedStatus[type] = false
     }
+<<<<<<< HEAD
     const newSelectedValue = {
       ...this.state.selectedValue,
       [type]: value
@@ -131,6 +159,14 @@ export default class Filter extends Component {
     this.setState({
       openType: '',
       selectedValue: newSelectedValue,
+=======
+    this.setState({
+      openType: '',
+      selectedValue: {
+        ...this.state.selectedValue,
+        [type]: value
+      },
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
       titleSelectedStatus: newTitleSelectedStatus
     })
   }
@@ -190,6 +226,7 @@ export default class Filter extends Component {
       onCancel={this.onCancel}
     ></FilterMore>
   }
+<<<<<<< HEAD
   renderMask() {
     const { openType } = this.state
     const isHide = openType === 'more' || openType === ''
@@ -209,11 +246,20 @@ export default class Filter extends Component {
   }
   render() {
     const { titleSelectedStatus } = this.state
+=======
+  render() {
+    const { titleSelectedStatus, openType } = this.state
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
         {
+<<<<<<< HEAD
           this.renderMask()
+=======
+          (openType === 'area' || openType === 'mode' || openType === 'price') ?
+            <div className={styles.mask} onClick={() => { this.onCancel(openType) }} /> : null
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
         }
 
         <div className={styles.content}>
@@ -232,4 +278,8 @@ export default class Filter extends Component {
       </div>
     )
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> cbde0036de1da847591541642d20d7cc9903ff71
