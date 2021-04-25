@@ -147,7 +147,6 @@ export default class HouseList extends Component {
         )
     }
     render() {
-        const { count } = this.state
         return (
             <div>
                 <Flex className={styles.header}>
